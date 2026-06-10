@@ -16,7 +16,8 @@
 # include <ctype.h>
 # include <dirent.h>
 
-# define SIGNATURE "Pestilence version 1.0 (c)oded by davgalle"
+# define KEY 0x42
+// # define SIGNATURE "Pestilence version 1.0 (c)oded by davgalle"
 
 typedef struct s_pestilence
 {
@@ -26,6 +27,7 @@ typedef struct s_pestilence
     int             anti_virus;
     const char      *binary;
     char            *strtab;
+    char            decrypted[1024];
     unsigned char   *elf;
     void            *signd;
     Elf64_Ehdr      *header;
