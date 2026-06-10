@@ -1,6 +1,6 @@
 NAME = Pestilence
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g3
+CFLAGS = -Wall -Werror -Wextra -g3 
 RM = rm -f
 
 SRC = src/main.c src/infection.c src/protection.c

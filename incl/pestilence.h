@@ -10,6 +10,7 @@
 # include <sys/stat.h>
 # include <sys/mman.h>
 # include <sys/types.h>
+# include <sys/ptrace.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <ctype.h>
@@ -49,6 +50,5 @@ int     ft_detect_prev_infection(t_pestilence *pestilence);
 void    ft_infect(t_pestilence *pestilence);
 void    ft_antiprocess(t_pestilence *pestilence);
 void    ft_obfuscation(t_pestilence *pestilence);
-void    ft_antidebug(t_pestilence *pestilence);
 
 #endif

