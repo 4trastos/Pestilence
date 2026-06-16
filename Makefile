@@ -1,21 +1,21 @@
 NAME = Pestilence
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g3 
+CFLAGS = -Wall -Werror -Wextra
 RM = rm -f
 
-SRC = src/main.c src/infection.c src/protection.c
-OBTS = $(SRC:.c=.o)
+SRC = src/main.c src/protection.c src/infection.c
+OBJT = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBTS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBTS)
+$(NAME): $(OBJT)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJT)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBTS)
+	$(RM) $(OBJT)
 
 fclean: clean
 	$(RM) $(NAME)

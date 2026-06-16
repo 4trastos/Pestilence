@@ -17,12 +17,10 @@
 # include <dirent.h>
 
 # define KEY 0x42
-// # define SIGNATURE "Pestilence version 1.0 (c)oded by davgalle"
 
 typedef struct s_pestilence
 {
     int             fd;
-    int             valide;
     int             file_size;
     int             anti_virus;
     const char      *binary;
@@ -46,8 +44,6 @@ char    *ft_getdir(int i);
 char    *ft_getproc(int i);
 int     ft_checkarg(t_pestilence *pestilence);
 int     ft_readelf(t_pestilence *pestilence);
-void    ft_pointer_section_table(t_pestilence *pestilence);
-void    ft_pointer_strings_table(t_pestilence *pestilence);
 int     ft_detect_prev_infection(t_pestilence *pestilence);
 void    ft_infect(t_pestilence *pestilence);
 void    ft_antiprocess(t_pestilence *pestilence);

