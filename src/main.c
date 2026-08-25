@@ -60,7 +60,7 @@ int main()
     pestilence->anti_virus = 0;
     ft_antiprocess(pestilence);
 
-    if (!pestilence->anti_virus)
+    if (pestilence->anti_virus != 1)
     {
         while (i < 2)
         {
